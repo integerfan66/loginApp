@@ -1,0 +1,12 @@
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\bin\Debug\loginApp.exe.config
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\bin\Debug\loginApp.exe
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\bin\Debug\loginApp.pdb
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\obj\Debug\loginApp.csproj.AssemblyReference.cache
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\obj\Debug\loginApp.Form1.resources
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\obj\Debug\loginApp.Properties.Resources.resources
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\obj\Debug\loginApp.csproj.GenerateResource.cache
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\obj\Debug\loginApp.csproj.CoreCompileInputs.cache
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\obj\Debug\loginApp.exe
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\obj\Debug\loginApp.pdb
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\obj\Debug\loginApp.Form2.resources
+C:\Users\BERKAY-KAAN\source\repos\loginApp\loginApp\obj\Debug\loginApp.Form3.resources
