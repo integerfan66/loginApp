@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -22,6 +23,7 @@ namespace loginApp
 
         private void Form3_Load(object sender, EventArgs e)
         {
+            
             connect = new SqlConnection("Data Source=DESKTOP-A36V29R\\SQLEXPRESS;Initial Catalog=LoginDB;Integrated Security=True;");
             try
             {
@@ -307,7 +309,7 @@ namespace loginApp
         public void EnableObjectsMethod()
         {
             
-            for(int i = 5; i<=14; i++)
+            for(int i = 5; i<=15; i++)
             {
                 Label existingLabel = this.Controls.Find("label" + i, true)[0] as Label;
                 if (existingLabel != null)
@@ -325,7 +327,7 @@ namespace loginApp
                     existingTextBox.Visible = true;
                 }
             }
-            for(int i=3; i<=5; i++)
+            for(int i=3; i<=6; i++)
             {
                 Button existingButton = this.Controls.Find("button" + i, true)[0] as Button;
                 if (existingButton != null)
@@ -337,12 +339,36 @@ namespace loginApp
 
             
         }
-        /*
+
+        public void ListProducts()
+        {
+            if(connect.State == ConnectionState.Closed)
+            {
+                connect.Open();
+            }
+
+            string query = "SELECT proName, proPrice FROM products";
+            SqlCommand cmd = new SqlCommand(query, connect);
+            SqlDataReader reader = cmd.ExecuteReader();
+            listBox1.Items.Clear();
+            while (reader.Read())
+            {
+                listBox2.Items.Add(reader[0].ToString() + "\t" + reader[1].ToString());
+            }
+            cmd.Dispose();
+            reader.Close();
+        }
+        
         public void ListCategories()
         {
             try
             {
-                connect.Open();
+                
+                if (connect.State == ConnectionState.Closed)
+                {
+                    connect.Open();
+                }
+                
                 string query = "SELECT catName FROM categories";
                 SqlCommand cmd = new SqlCommand(query, connect);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -352,6 +378,8 @@ namespace loginApp
                     listBox1.Items.Add(reader[0].ToString());
                 }
                 listBox1.Items.Add("Tüm ögeleri göster");
+                cmd.Dispose();
+                reader.Close();
             }
             catch (Exception)
             {
@@ -360,7 +388,7 @@ namespace loginApp
             }
             finally { connect.Close(); }
         }
-        */
+        
         private void button3_Click(object sender, EventArgs e)
         {
             if(textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "")
@@ -387,19 +415,9 @@ namespace loginApp
                             cmd.ExecuteNonQuery();
                             cmd.Dispose();
                         }
-                        
-                        
-                      query = "SELECT catName FROM categories";
-                    cmd = new SqlCommand(query, connect);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    listBox1.Items.Clear();
-                    while (reader.Read())
-                    {
-                        listBox1.Items.Add(reader[0].ToString());
-                    }
-                    listBox1.Items.Add("Tüm öğeleri göster");
-                    cmd.Dispose();
-                    reader.Close();
+
+
+                    ListCategories();
 
                         
                     categoryIndex = listBox1.Items.IndexOf(textBox5.Text);
@@ -411,17 +429,7 @@ namespace loginApp
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
 
-                    query = "SELECT proName,proPrice FROM products";
-                    cmd = new SqlCommand(query, connect);
-                    reader = cmd.ExecuteReader();
-                    listBox2.Items.Clear();
-                    while (reader.Read())
-                    {
-                        listBox2.Items.Add(reader[0].ToString() + "\t" + reader[1].ToString());
-                    }
-                    
-                    cmd.Dispose();
-                    reader.Close();
+                    ListProducts();
                     
 
                 }
@@ -436,6 +444,40 @@ namespace loginApp
                 
 
                 
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (listBox1.SelectedIndex != listBox1.Items.Count-1 && listBox1.SelectedIndex != -1)
+                {
+                    connect.Open();
+                    string query = "DELETE FROM products WHERE catID = @catID";
+                    SqlCommand cmd = new SqlCommand(query, connect);
+                    cmd.Parameters.AddWithValue("@catID", listBox1.SelectedIndex);
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                    query = "DELETE FROM categories WHERE catID = @catID";
+                    cmd = new SqlCommand(query, connect);
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                    MessageBox.Show("Geçerli");
+                    ListProducts();
+                    ListCategories();
+                }
+                else
+                {
+                    MessageBox.Show("Geçersiz");
+                }
+                
+
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }
