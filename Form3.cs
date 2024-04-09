@@ -34,6 +34,7 @@ namespace loginApp
                 {
                     listBox1.Items.Add(reader[0].ToString());
                 }
+                listBox1.Items.Add("Tüm ögeleri göster");
                 cmd.Dispose();
                 reader.Close();
                 query = "SELECT proName, proPrice FROM products";
@@ -43,7 +44,7 @@ namespace loginApp
                 while (reader.Read()) {
                     listBox2.Items.Add(reader[0].ToString() + "\t" + reader[1].ToString());
                 }
-                listBox1.Items.Add("Tüm ögeleri göster");
+                
             }
             catch (Exception ex)
             {
@@ -336,10 +337,106 @@ namespace loginApp
 
             
         }
+        /*
+        public void ListCategories()
+        {
+            try
+            {
+                connect.Open();
+                string query = "SELECT catName FROM categories";
+                SqlCommand cmd = new SqlCommand(query, connect);
+                SqlDataReader reader = cmd.ExecuteReader();
+                listBox1.Items.Clear();
+                while (reader.Read())
+                {
+                    listBox1.Items.Add(reader[0].ToString());
+                }
+                listBox1.Items.Add("Tüm ögeleri göster");
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+            finally { connect.Close(); }
+        }
+        */
         private void button3_Click(object sender, EventArgs e)
         {
+            if(textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "")
+            {
+                MessageBox.Show("Boşlukları doldurunuz.");
+            }
+            else
+            {
+                try
+                {
+                    int categoryIndex;
+                    connect.Open();
+                    string query;
+                    SqlCommand cmd;
 
+                    
+                    
+                        if (!listBox1.Items.Contains(textBox5.Text))
+                        {
+                        query = "INSERT INTO categories VALUES(@catName)";
+                        cmd = new SqlCommand(query, connect);
+                        listBox1.Items.Add(textBox5.Text);
+                            cmd.Parameters.AddWithValue("@catName", textBox5.Text);
+                            cmd.ExecuteNonQuery();
+                            cmd.Dispose();
+                        }
+                        
+                        
+                      query = "SELECT catName FROM categories";
+                    cmd = new SqlCommand(query, connect);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    listBox1.Items.Clear();
+                    while (reader.Read())
+                    {
+                        listBox1.Items.Add(reader[0].ToString());
+                    }
+                    listBox1.Items.Add("Tüm öğeleri göster");
+                    cmd.Dispose();
+                    reader.Close();
+
+                        
+                    categoryIndex = listBox1.Items.IndexOf(textBox5.Text);
+                    query = "INSERT INTO products VALUES(@proName,@proPrice,@catID)";
+                    cmd = new SqlCommand(query, connect);
+                    cmd.Parameters.AddWithValue("@proName", textBox3.Text);
+                    cmd.Parameters.AddWithValue("@proPrice", textBox4.Text);
+                    cmd.Parameters.AddWithValue("@catID", categoryIndex);
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+
+                    query = "SELECT proName,proPrice FROM products";
+                    cmd = new SqlCommand(query, connect);
+                    reader = cmd.ExecuteReader();
+                    listBox2.Items.Clear();
+                    while (reader.Read())
+                    {
+                        listBox2.Items.Add(reader[0].ToString() + "\t" + reader[1].ToString());
+                    }
+                    
+                    cmd.Dispose();
+                    reader.Close();
+                    
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                finally { connect.Close(); }
+                
+                
+                
+
+                
+            }
         }
     }
 }
