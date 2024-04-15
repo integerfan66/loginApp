@@ -66,23 +66,26 @@
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.listBox3 = new System.Windows.Forms.ListBox();
+            this.listBox4 = new System.Windows.Forms.ListBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(432, 25);
+            this.listBox1.Location = new System.Drawing.Point(456, 28);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(111, 407);
+            this.listBox1.Size = new System.Drawing.Size(111, 303);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // listBox2
             // 
             this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(549, 25);
+            this.listBox2.Location = new System.Drawing.Point(573, 28);
             this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(199, 407);
+            this.listBox2.Size = new System.Drawing.Size(127, 303);
             this.listBox2.TabIndex = 1;
             this.listBox2.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
             this.listBox2.DoubleClick += new System.EventHandler(this.ProductDescClick);
@@ -90,7 +93,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(429, 5);
+            this.label1.Location = new System.Drawing.Point(453, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 2;
@@ -99,7 +102,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(590, 5);
+            this.label2.Location = new System.Drawing.Point(570, 8);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 13);
             this.label2.TabIndex = 3;
@@ -107,9 +110,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(754, 25);
+            this.button1.Location = new System.Drawing.Point(580, 333);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 72);
+            this.button1.Size = new System.Drawing.Size(93, 72);
             this.button1.TabIndex = 4;
             this.button1.Text = "Artarak Listele";
             this.button1.UseVisualStyleBackColor = true;
@@ -117,9 +120,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(754, 100);
+            this.button2.Location = new System.Drawing.Point(679, 333);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 72);
+            this.button2.Size = new System.Drawing.Size(93, 72);
             this.button2.TabIndex = 5;
             this.button2.Text = "Azalarak Listele";
             this.button2.UseVisualStyleBackColor = true;
@@ -127,7 +130,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(754, 194);
+            this.textBox1.Location = new System.Drawing.Point(652, 411);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(120, 20);
             this.textBox1.TabIndex = 6;
@@ -135,7 +138,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(754, 238);
+            this.textBox2.Location = new System.Drawing.Point(652, 440);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(120, 20);
             this.textBox2.TabIndex = 7;
@@ -144,7 +147,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(751, 178);
+            this.label3.Location = new System.Drawing.Point(580, 414);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 13);
             this.label3.TabIndex = 8;
@@ -153,7 +156,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(751, 222);
+            this.label4.Location = new System.Drawing.Point(570, 440);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(76, 13);
             this.label4.TabIndex = 9;
@@ -259,11 +262,11 @@
             this.label10.AutoSize = true;
             this.label10.Enabled = false;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label10.Location = new System.Drawing.Point(134, 131);
+            this.label10.Location = new System.Drawing.Point(64, 131);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(131, 18);
+            this.label10.Size = new System.Drawing.Size(264, 18);
             this.label10.TabIndex = 19;
-            this.label10.Text = "Listeden ürün sil";
+            this.label10.Text = "Seçilen veya ismi yazılan ürünü sil";
             this.label10.Visible = false;
             // 
             // textBox6
@@ -357,9 +360,9 @@
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label14.Location = new System.Drawing.Point(103, 9);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(189, 18);
+            this.label14.Size = new System.Drawing.Size(177, 18);
             this.label14.TabIndex = 23;
-            this.label14.Text = "Listedeki ürünü güncelle";
+            this.label14.Text = "Seçilen ürünü güncelle";
             this.label14.Visible = false;
             // 
             // textBox9
@@ -376,11 +379,11 @@
             this.label15.AutoSize = true;
             this.label15.Enabled = false;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label15.Location = new System.Drawing.Point(120, 209);
+            this.label15.Location = new System.Drawing.Point(54, 212);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(159, 18);
+            this.label15.Size = new System.Drawing.Size(295, 18);
             this.label15.TabIndex = 31;
-            this.label15.Text = "Listeden kategori sil";
+            this.label15.Text = "Seçilen veya ismi yazılan kategoriyi sil";
             this.label15.Visible = false;
             // 
             // button6
@@ -417,19 +420,23 @@
             // 
             // richTextBox1
             // 
+            this.richTextBox1.Enabled = false;
             this.richTextBox1.Location = new System.Drawing.Point(314, 318);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(112, 94);
             this.richTextBox1.TabIndex = 35;
             this.richTextBox1.Text = "";
+            this.richTextBox1.Visible = false;
             // 
             // richTextBox2
             // 
+            this.richTextBox2.Enabled = false;
             this.richTextBox2.Location = new System.Drawing.Point(314, 30);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.Size = new System.Drawing.Size(112, 96);
             this.richTextBox2.TabIndex = 36;
             this.richTextBox2.Text = "";
+            this.richTextBox2.Visible = false;
             // 
             // label17
             // 
@@ -453,11 +460,40 @@
             this.label18.Text = "Açıklaması: ";
             this.label18.Visible = false;
             // 
+            // listBox3
+            // 
+            this.listBox3.Enabled = false;
+            this.listBox3.FormattingEnabled = true;
+            this.listBox3.Location = new System.Drawing.Point(699, 28);
+            this.listBox3.Name = "listBox3";
+            this.listBox3.Size = new System.Drawing.Size(73, 303);
+            this.listBox3.TabIndex = 39;
+            // 
+            // listBox4
+            // 
+            this.listBox4.FormattingEnabled = true;
+            this.listBox4.Location = new System.Drawing.Point(778, 28);
+            this.listBox4.Name = "listBox4";
+            this.listBox4.Size = new System.Drawing.Size(73, 303);
+            this.listBox4.TabIndex = 40;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(778, 9);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(67, 13);
+            this.label19.TabIndex = 41;
+            this.label19.Text = "Stok durumu";
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(876, 749);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.listBox4);
+            this.Controls.Add(this.listBox3);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.richTextBox2);
@@ -545,5 +581,8 @@
         private System.Windows.Forms.RichTextBox richTextBox2;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ListBox listBox3;
+        private System.Windows.Forms.ListBox listBox4;
+        private System.Windows.Forms.Label label19;
     }
 }
