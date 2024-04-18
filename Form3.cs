@@ -60,20 +60,20 @@ namespace loginApp
                     connect.Open();
                     if (listBox1.SelectedIndex != listBox1.Items.Count - 1 && listBox1.SelectedItem != null)
                     {
-                        string query = "SELECT proName, proPrice FROM products WHERE catID = @catID";
+                        string query = "SELECT proName, proPrice, stockState FROM products WHERE catID = @catID";
                         SqlCommand cmd = new SqlCommand(query, connect);
                         cmd.Parameters.AddWithValue("@catID", IndexOfCategory(listBox1.SelectedItem.ToString()));
                         SqlDataReader reader = cmd.ExecuteReader();
                         GetProductsFromReader(reader);
-                        textBox10.Text = listBox1.SelectedItem.ToString();
+                        catDelete_Box.Text = listBox1.SelectedItem.ToString();
                     }
                     else
                     {
-                        string query = "SELECT proName, proPrice FROM products";
+                        string query = "SELECT proName, proPrice, stockState FROM products";
                         SqlCommand cmd = new SqlCommand(query, connect);
                         SqlDataReader reader = cmd.ExecuteReader();
                         GetProductsFromReader(reader);
-                        textBox10.Clear();
+                        catDelete_Box.Clear();
                     }
                 
                
@@ -109,10 +109,23 @@ namespace loginApp
         {
             listBox2.Items.Clear();
             listBox3.Items.Clear();
+            listBox4.Items.Clear();
             while (reader.Read())
             {
                 listBox2.Items.Add(reader[0].ToString());
                 listBox3.Items.Add(reader[1].ToString());
+                if (reader[2].ToString() != "" && reader[2].ToString() != "0")
+                {
+                    listBox4.Items.Add(reader[2].ToString());
+                }
+                else if (reader[2].ToString() == "")
+                {
+                    listBox4.Items.Add("Kayıt yok");
+                }
+                else
+                {
+                    listBox4.Items.Add("Tükenmiş");
+                }
             }
             reader.Close();
         }
@@ -128,7 +141,7 @@ namespace loginApp
                 if (listBox1.SelectedIndex != listBox1.Items.Count - 1 && listBox1.SelectedItem != null)
                 {
                     string categoryName = listBox1.SelectedItem.ToString();
-                    string query = "SELECT proName, proPrice FROM products WHERE catID = @catID ORDER BY proPrice ASC";
+                    string query = "SELECT proName, proPrice, stockState FROM products WHERE catID = @catID ORDER BY proPrice ASC";
                     SqlCommand cmd = new SqlCommand(query, connect);
                     cmd.Parameters.AddWithValue("@catID", IndexOfCategory(categoryName));
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -137,7 +150,7 @@ namespace loginApp
                 }
                 else
                 {
-                    string query = "SELECT proName, proPrice FROM products ORDER BY proPrice ASC";
+                    string query = "SELECT proName, proPrice, stockState FROM products ORDER BY proPrice ASC";
                     SqlCommand cmd = new SqlCommand(query, connect);
                     SqlDataReader reader = cmd.ExecuteReader();
                     GetProductsFromReader(reader);
@@ -162,7 +175,7 @@ namespace loginApp
                 {
 
                     string categoryName = listBox1.SelectedItem.ToString();
-                    string query = "SELECT proName, proPrice FROM products WHERE catID = @catID ORDER BY proPrice DESC";
+                    string query = "SELECT proName, proPrice, stockState FROM products WHERE catID = @catID ORDER BY proPrice DESC";
                     SqlCommand cmd = new SqlCommand(query, connect);
                     cmd.Parameters.AddWithValue("@catID", IndexOfCategory(categoryName));
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -171,7 +184,7 @@ namespace loginApp
                 }
                 else
                 {
-                    string query = "SELECT proName, proPrice FROM products ORDER BY proPrice DESC";
+                    string query = "SELECT proName, proPrice, stockState FROM products ORDER BY proPrice DESC";
                     SqlCommand cmd = new SqlCommand(query, connect);
                     SqlDataReader reader = cmd.ExecuteReader();
                     listBox2.Items.Clear();
@@ -189,44 +202,114 @@ namespace loginApp
 
         public void EnableObjectsMethod()
         {
-            //eğer giriş yapan admin ise kontrolleri göster
-            for (int i = 5; i<=18; i++)
+            try
             {
-                Label existingLabel = this.Controls.Find("label" + i, true)[0] as Label;
-                if (existingLabel != null)
+                //eğer giriş yapan admin ise kontrolleri göster
+                for (int i = 1; i <= 10; i++) //WHİLE DÖNGÜSÜ YAPILACAK !!!!!!!!!!!!
                 {
-                    existingLabel.Enabled = true;
-                    existingLabel.Visible = true;
-                }
-            }
-            for(int i = 1; i<= 2; i++)
-            {
-                RichTextBox existingRichTB = this.Controls.Find("richTextBox" + i, true)[0] as RichTextBox;
-                if(existingRichTB != null)
-                {
-                    existingRichTB.Enabled = true;
-                    existingRichTB.Visible = true;
-                }
-            }
-            for(int i = 3; i <= 10; i++)
-            {
-                TextBox existingTextBox = this.Controls.Find("textBox" + i, true)[0] as TextBox;
-                if (existingTextBox != null)
-                {
-                    existingTextBox.Enabled = true;
-                    existingTextBox.Visible = true;
-                }
-            }
-            for(int i=3; i<=6; i++)
-            {
-                Button existingButton = this.Controls.Find("button" + i, true)[0] as Button;
-                if (existingButton != null)
-                {
-                    existingButton.Enabled = true;
-                    existingButton.Visible = true;
-                }
-            }
+                    Label upd_Label = this.Controls.Find("update_Label" + i, true).FirstOrDefault() as Label;
+                    if (upd_Label != null)
+                    {
+                        upd_Label.Enabled = true;
+                        upd_Label.Visible = true;
+                    }
 
+                    Label del_Label = this.Controls.Find("delete_Label" + i, true).FirstOrDefault() as Label;
+
+                    if (del_Label != null)
+                    {
+                        del_Label.Enabled = true;
+                        del_Label.Visible = true;
+                    }
+
+                    Label catDel_Label = this.Controls.Find("catDelete_Label" + i, true).FirstOrDefault() as Label;
+
+                    if (catDel_Label != null)
+                    {
+                        catDel_Label.Enabled = true;
+                        catDel_Label.Visible = true;
+                    }
+
+                    Label add_Label = this.Controls.Find("add_Label" + i, true).FirstOrDefault() as Label;
+
+                    if (add_Label != null)
+                    {
+                        add_Label.Enabled = true;
+                        add_Label.Visible = true;
+                    }
+                }
+                for (int i = 1; i <= 2; i++)
+                {
+                    RichTextBox existingRichTB = this.Controls.Find("richTextBox" + i, true).FirstOrDefault() as RichTextBox;
+                    if (existingRichTB != null)
+                    {
+                        existingRichTB.Enabled = true;
+                        existingRichTB.Visible = true;
+                    }
+                }
+                for (int i = 1; i <= 4; i++)
+                {
+                    TextBox upd_Box = this.Controls.Find("update_Box" + i, true).FirstOrDefault() as TextBox;
+                    if (upd_Box != null)
+                    {
+                        upd_Box.Enabled = true;
+                        upd_Box.Visible = true;
+                    }
+
+                    TextBox add_Box = this.Controls.Find("add_Box" + i, true).FirstOrDefault() as TextBox;
+                    if (add_Box != null)
+                    {
+                        add_Box.Enabled = true;
+                        add_Box.Visible = true;
+                    }
+                }
+
+                TextBox del_Box = this.Controls.Find("delete_Box", true).FirstOrDefault() as TextBox;
+                if (del_Box != null)
+                {
+                    del_Box.Enabled = true;
+                    del_Box.Visible = true;
+                }
+
+                TextBox catDel_Box = this.Controls.Find("catDelete_Box", true).FirstOrDefault() as TextBox;
+                if (catDel_Box != null)
+                {
+                    catDel_Box.Enabled = true;
+                    catDel_Box.Visible = true;
+                }
+
+                Button upd_Button = this.Controls.Find("update_Button", true).FirstOrDefault() as Button;
+                if (upd_Button != null)
+                {
+                    upd_Button.Enabled = true;
+                    upd_Button.Visible = true;
+                }
+
+                Button del_Button = this.Controls.Find("delete_Button", true).FirstOrDefault() as Button;
+                if (del_Button != null)
+                {
+                    del_Button.Enabled = true;
+                    del_Button.Visible = true;
+                }
+
+                Button catDel_Button = this.Controls.Find("catDelete_Button", true).FirstOrDefault() as Button;
+                if (catDel_Button != null)
+                {
+                    catDel_Button.Enabled = true;
+                    catDel_Button.Visible = true;
+                }
+
+                Button add_Button = this.Controls.Find("add_Button", true).FirstOrDefault() as Button;
+                if (add_Button != null)
+                {
+                    add_Button.Enabled = true;
+                    add_Button.Visible = true;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             
         }
 
@@ -239,7 +322,7 @@ namespace loginApp
                     connect.Open();
                 }
 
-                string query = "SELECT proName, proPrice FROM products";
+                string query = "SELECT proName, proPrice, stockState FROM products";
                 SqlCommand cmd = new SqlCommand(query, connect);
                 SqlDataReader reader = cmd.ExecuteReader();
                 listBox2.Items.Clear();
@@ -248,6 +331,18 @@ namespace loginApp
                 {
                     listBox2.Items.Add(reader[0].ToString());
                     listBox3.Items.Add(reader[1].ToString());
+                    if (reader[2].ToString() != "" && reader[2].ToString() != "0")
+                    {
+                        listBox4.Items.Add(reader[2].ToString());
+                    }
+                    else if (reader[2].ToString() == "")
+                    {
+                        listBox4.Items.Add("Kayıt yok");
+                    }
+                    else
+                    {
+                        listBox4.Items.Add("Tükenmiş");
+                    }
                 }
                 cmd.Dispose();
                 reader.Close();
@@ -291,6 +386,8 @@ namespace loginApp
             
         }
 
+        
+
         public void UpdateInsertCategory()
         {
             try
@@ -301,14 +398,14 @@ namespace loginApp
                 }
                 string query = "SELECT COUNT(*) FROM categories WHERE catName = @catName";
                 SqlCommand cmd = new SqlCommand(query, connect);
-                cmd.Parameters.AddWithValue("@catName", textBox9.Text);
+                cmd.Parameters.AddWithValue("@catName", update_Box3.Text);
                 int catCount = (int)cmd.ExecuteScalar();
                 cmd.Dispose();
                 if (catCount == 0)
                 {
                     query = "INSERT INTO categories VALUES(@catName)";
                     cmd = new SqlCommand(query, connect);
-                    cmd.Parameters.AddWithValue("@catName", textBox9.Text);
+                    cmd.Parameters.AddWithValue("@catName", update_Box3.Text);
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                 }
@@ -368,7 +465,7 @@ namespace loginApp
         private void button3_Click(object sender, EventArgs e)
         {
             //Ürün ekleme
-            if(textBox3.Text == "" || textBox4.Text == "" || textBox5.Text == "")
+            if(add_Box1.Text == "" || add_Box2.Text == "" || add_Box3.Text == "")
             {
                 MessageBox.Show("Boşlukları doldurunuz.");
             }
@@ -380,27 +477,21 @@ namespace loginApp
 
 
                     string productName = null;
-                    string selectedValue = null;
+                    
 
                     for (int i = 0; i < listBox2.Items.Count; i++)
                     {
                         string value = listBox2.Items[i].ToString();
-                        for (int j = 0; j < value.Length; j++)
-                        {
-                            if (value[j] == '\t')
-                            {
-                                productName = value.Substring(0, j);
-                                selectedValue = value;
-                                break;
-                            }
-                        }
-                        if (productName != null) // If product name is found, exit the loop
+
+                        productName = value;
+                        
+                        if (productName == add_Box1.Text) // If product name is found, exit the loop
                         {
                             break;
                         }
                     }
 
-                    if (textBox3.Text != productName)
+                    if (add_Box1.Text != productName)
                     {
                         int categoryIndex;
                         connect.Open();
@@ -409,12 +500,12 @@ namespace loginApp
 
 
                         //eğer eklenecek ürünün kategorisi yoksa listeye ekliyoruz
-                        if (!listBox1.Items.Contains(textBox5.Text))
+                        if (!listBox1.Items.Contains(add_Box3.Text))
                         {
                             query = "INSERT INTO categories VALUES(@catName)";
                             cmd = new SqlCommand(query, connect);
-                            listBox1.Items.Add(textBox5.Text);
-                            cmd.Parameters.AddWithValue("@catName", textBox5.Text);
+                            listBox1.Items.Add(add_Box3.Text);
+                            cmd.Parameters.AddWithValue("@catName", add_Box3.Text);
                             cmd.ExecuteNonQuery();
                             cmd.Dispose();
                         }
@@ -423,13 +514,13 @@ namespace loginApp
                         ListCategories();
 
                         //ürünü ekliyoruz
-                        categoryIndex = IndexOfCategory(textBox5.Text);
+                        categoryIndex = IndexOfCategory(add_Box3.Text);
                         if(richTextBox1.Text == "")
                         {
                             query = "INSERT INTO products VALUES(@proName,@proPrice,@catID)";
                             cmd = new SqlCommand(query, connect);
-                            cmd.Parameters.AddWithValue("@proName", textBox3.Text);
-                            cmd.Parameters.AddWithValue("@proPrice", textBox4.Text);
+                            cmd.Parameters.AddWithValue("@proName", add_Box1.Text);
+                            cmd.Parameters.AddWithValue("@proPrice", add_Box2.Text);
                             cmd.Parameters.AddWithValue("@catID", categoryIndex);
                             cmd.ExecuteNonQuery();
                             cmd.Dispose();
@@ -438,8 +529,8 @@ namespace loginApp
                         {
                             query = "INSERT INTO products VALUES(@proName,@proPrice,@catID, @proDesc)";
                             cmd = new SqlCommand(query, connect);
-                            cmd.Parameters.AddWithValue("@proName", textBox3.Text);
-                            cmd.Parameters.AddWithValue("@proPrice", textBox4.Text);
+                            cmd.Parameters.AddWithValue("@proName", add_Box1.Text);
+                            cmd.Parameters.AddWithValue("@proPrice", add_Box2.Text);
                             cmd.Parameters.AddWithValue("@catID", categoryIndex);
                             cmd.Parameters.AddWithValue("@proDesc", richTextBox1.Text);
                             cmd.ExecuteNonQuery();
@@ -451,7 +542,7 @@ namespace loginApp
 
                         for (int i = 3; i <= 5; i++)
                         {
-                            TextBox existingTextBox = this.Controls.Find("textBox" + i, true)[0] as TextBox;
+                            TextBox existingTextBox = this.Controls.Find("textBox" + i, true).FirstOrDefault() as TextBox;
                             if (existingTextBox != null)
                             {
                                 existingTextBox.Clear();
@@ -502,7 +593,7 @@ namespace loginApp
             
             try
             {
-                if (listBox1.SelectedIndex != listBox1.Items.Count-1 && listBox1.SelectedIndex != -1 || textBox6.Text != "")
+                if (listBox1.SelectedIndex != listBox1.Items.Count-1 && listBox1.SelectedIndex != -1 || delete_Box.Text != "")
                 {
                     connect.Open();
                     string categoryName = listBox1.SelectedItem.ToString();
@@ -526,7 +617,7 @@ namespace loginApp
                     ListProducts();
                     ListCategories();
                     
-                    textBox10.Clear();
+                    catDelete_Box.Clear();
 
                 }
                 else
@@ -554,7 +645,7 @@ namespace loginApp
             {
                 //Ürünün olup olmadığına bakıyor, değerini 'value'ya atıyoruz
                 connect.Open();
-                string productName = textBox6.Text;
+                string productName = delete_Box.Text;
                 string query = "SELECT COUNT(*) FROM products WHERE proName = @proName";
                 SqlCommand cmd = new SqlCommand(query,connect);
                 cmd.Parameters.AddWithValue("@proName", productName);
@@ -568,9 +659,9 @@ namespace loginApp
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
                     ListProducts();
-                    for (int i = 6; i <= 9; i++)
+                    for (int i = 1; i <= 4; i++)
                     {
-                        TextBox existingTextBox = this.Controls.Find("textBox" + i, true)[0] as TextBox;
+                        TextBox existingTextBox = this.Controls.Find("update_Box" + i, true).FirstOrDefault() as TextBox;
                         if (existingTextBox != null)
                         {
                             existingTextBox.Clear();
@@ -610,8 +701,8 @@ namespace loginApp
 
                     string productName;
                     //ürün güncelleme için ve silme için atama 
-                    textBox7.Text = textBox6.Text = productName = listBox2.SelectedItem.ToString();
-                    textBox8.Text = indexed; //ürünün fiyatını güncelleme kısmına atama
+                    update_Box1.Text = delete_Box.Text = productName = listBox2.SelectedItem.ToString();
+                    update_Box2.Text = indexed; //ürünün fiyatını güncelleme kısmına atama
 
                     //ürünün kategori id'sini alıyoruz, ürün güncelleme kısmına atıyoruz
                     connect.Open();
@@ -622,7 +713,7 @@ namespace loginApp
                     cmd.Parameters.AddWithValue("@catID", IndexOfProductCategory(productName));
                     string result = cmd.ExecuteScalar().ToString();
                     cmd.Dispose();
-                    textBox9.Text = result;
+                    update_Box3.Text = result;
 
                     query = "SELECT proDesc FROM products WHERE proName = @proName";
                     cmd = new SqlCommand(query, connect);
@@ -707,7 +798,7 @@ namespace loginApp
                                         }
                                         break;
                                     case 10:
-                                        if(textBox7.Text == "" && textBox8.Text == "" && textBox9.Text == "")
+                                        if(update_Box1.Text == "" && update_Box2.Text == "" && update_Box3.Text == "")
                                         {
                                             MessageBox.Show("Hiç boşluk doldurmadınız.");
                                         }
@@ -806,20 +897,20 @@ namespace loginApp
                 {
 
                     string categoryName = listBox1.SelectedItem.ToString();
-                    if (textBox1.Text != "" && textBox2.Text == "")
+                    if (lowPrice_Box.Text != "" && hiPrice_Box.Text == "")
                     {
                         string query = "SELECT proName, proPrice FROM products WHERE catID = @catID AND proPrice >= @minPrice ";
                         SqlCommand cmd = new SqlCommand(query, connect);
-                        cmd.Parameters.AddWithValue("@minPrice", textBox1.Text);
+                        cmd.Parameters.AddWithValue("@minPrice", lowPrice_Box.Text);
                         cmd.Parameters.AddWithValue("@catID", IndexOfCategory(categoryName));
                         SqlDataReader reader = cmd.ExecuteReader();
                         GetProductsFromReader(reader);
                     }
-                    else if (textBox1.Text == "" && textBox2.Text != "")
+                    else if (lowPrice_Box.Text == "" && hiPrice_Box.Text != "")
                     {
                         string query = "SELECT proName, proPrice FROM products WHERE catID = @catID AND proPrice >= @minPrice ";
                         SqlCommand cmd = new SqlCommand(query, connect);
-                        cmd.Parameters.AddWithValue("@maxPrice", textBox2.Text);
+                        cmd.Parameters.AddWithValue("@maxPrice", hiPrice_Box.Text);
                         cmd.Parameters.AddWithValue("@catID", IndexOfCategory(categoryName));
                         SqlDataReader reader = cmd.ExecuteReader();
                         GetProductsFromReader(reader);
@@ -828,8 +919,8 @@ namespace loginApp
                     {
                         string query = "SELECT proName, proPrice FROM products WHERE catID = @catID AND proPrice >= @minPrice AND proPrice <= @maxPrice";
                         SqlCommand cmd = new SqlCommand(query, connect);
-                        cmd.Parameters.AddWithValue("@minPrice", textBox1.Text);
-                        cmd.Parameters.AddWithValue("@maxPrice", textBox2.Text);
+                        cmd.Parameters.AddWithValue("@minPrice", lowPrice_Box.Text);
+                        cmd.Parameters.AddWithValue("@maxPrice", hiPrice_Box.Text);
                         cmd.Parameters.AddWithValue("@catID", IndexOfCategory(categoryName));
                         SqlDataReader reader = cmd.ExecuteReader();
                         listBox2.Items.Clear();
@@ -840,19 +931,19 @@ namespace loginApp
                 }
                 else
                 {
-                    if (textBox1.Text != "" && textBox2.Text == "")
+                    if (lowPrice_Box.Text != "" && hiPrice_Box.Text == "")
                     {
                         string query = "SELECT proName, proPrice FROM products WHERE proPrice >= @minPrice ";
                         SqlCommand cmd = new SqlCommand(query, connect);
-                        cmd.Parameters.AddWithValue("@minPrice", textBox1.Text);
+                        cmd.Parameters.AddWithValue("@minPrice", lowPrice_Box.Text);
                         SqlDataReader reader = cmd.ExecuteReader();
                         GetProductsFromReader(reader);
                     }
-                    else if (textBox1.Text == "" && textBox2.Text != "")
+                    else if (lowPrice_Box.Text == "" && hiPrice_Box.Text != "")
                     {
                         string query = "SELECT proName, proPrice FROM products WHERE proPrice >= @maxPrice ";
                         SqlCommand cmd = new SqlCommand(query, connect);
-                        cmd.Parameters.AddWithValue("@maxPrice", textBox2.Text);
+                        cmd.Parameters.AddWithValue("@maxPrice", hiPrice_Box.Text);
                         SqlDataReader reader = cmd.ExecuteReader();
                         listBox2.Items.Clear();
                         GetProductsFromReader(reader);
@@ -861,8 +952,8 @@ namespace loginApp
                     {
                         string query = "SELECT proName, proPrice FROM products WHERE proPrice >= @minPrice AND proPrice <= @maxPrice";
                         SqlCommand cmd = new SqlCommand(query, connect);
-                        cmd.Parameters.AddWithValue("@minPrice", textBox1.Text);
-                        cmd.Parameters.AddWithValue("@maxPrice", textBox2.Text);
+                        cmd.Parameters.AddWithValue("@minPrice", lowPrice_Box.Text);
+                        cmd.Parameters.AddWithValue("@maxPrice", hiPrice_Box.Text);
                         SqlDataReader reader = cmd.ExecuteReader();
                         GetProductsFromReader(reader);
                     }
