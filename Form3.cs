@@ -593,10 +593,10 @@ namespace loginApp
             
             try
             {
-                if (listBox1.SelectedIndex != listBox1.Items.Count-1 && listBox1.SelectedIndex != -1 || delete_Box.Text != "")
+                if (listBox1.SelectedIndex != listBox1.Items.Count-1 || delete_Box.Text != "")
                 {
                     connect.Open();
-                    string categoryName = listBox1.SelectedItem.ToString();
+                    string categoryName = delete_Box.Text;
                     int categoryIndex = IndexOfCategory(categoryName);
                     
                     string query = "DELETE FROM products WHERE catID = @catID";
